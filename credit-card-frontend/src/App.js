@@ -1,17 +1,21 @@
 import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import MainLayout from './layouts/MainLayout';
+import Home from './pages/Home';
+import Login from './pages/Login';
 
 function App() {
   return (
-    <div className='container'>
-      <div className='row'>
-        <div className='col-md-6'>1</div>
-        <div className='col-md-6'>2</div>
-        <div className='col-md-6'>3</div>
-        <div className='col-md-6'>4</div>
-      </div>
-    </div>
-  );
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<Home />} />
+          <Route path="login" element={<Login />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
 export default App;
