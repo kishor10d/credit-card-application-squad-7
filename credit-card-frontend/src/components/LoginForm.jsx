@@ -11,7 +11,7 @@ const LoginForm = () => {
 	const isAuthenticated = authService.isAuthenticated();
 	console.log("isAuth", isAuthenticated);
 	if (isAuthenticated) {
-		navigate('/');
+		navigate('/dashboard');
 	}
 
 	const schema = z.object({
@@ -42,7 +42,7 @@ const LoginForm = () => {
 
   return (
     <form className="mt-20" onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
+      <h4 className="h4 mb-3 fw-normal">Please sign in</h4>
 
       <div className="form-floating">
         <input

@@ -89,6 +89,9 @@ function Dashboard() {
 
   return (
     <>
+      <h3>Credit Card Applications</h3>
+      <br />
+
       {loading && ('Loading Data...' )}
 
       {!loading && (

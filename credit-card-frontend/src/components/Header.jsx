@@ -20,6 +20,7 @@ const Header = () => {
   }
 
   return(
+    <>
     <header>
       <nav
         className="navbar navbar-expand navbar-dark bg-primary"
@@ -43,24 +44,35 @@ const Header = () => {
 
           <div className="collapse navbar-collapse" id="navbarsExample02">
             <ul className="navbar-nav me-auto">
+              
+              { !isAuthenticated &&
+              <>
               <li className="nav-item">
                 <NavLink key='/' to="/" className="nav-link active">Home</NavLink>
               </li>
-              { !isAuthenticated &&
               <li className="nav-item active d-flex">
                 <NavLink key='/login' to="/login" className="nav-link active d-flex">Login</NavLink>
               </li>
+              </>
               }
               { isAuthenticated &&
+              <>
+              <li className="nav-item">
+                <NavLink key='/dashboard' to="/dashboard" className="nav-link active">Dashboard</NavLink>
+              </li>
               <li className="nav-item active d-flex">
                 <button onClick={logout} className="nav-link active d-flex">Logout <span > ({user?.name})</span></button>
               </li>
+              </>
+
               }
             </ul>
           </div>
         </div>
       </nav>
     </header>
+    <br />
+    </>
   )
 };
 
