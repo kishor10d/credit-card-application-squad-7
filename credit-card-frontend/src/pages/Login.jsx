@@ -1,7 +1,17 @@
-const Login = () => (
-	<div className="container">
-        This is login page
+import LoginForm from "../components/LoginForm";
+
+const Login = () => {
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col-md-4"></div>
+        <div className="col-md-4">
+          <LoginForm />
+        </div>
+        <div className="col-md-4"></div>
+      </div>
     </div>
-);
+  );
+};
 
 export default Login;
