@@ -4,11 +4,12 @@ import {ROLES, FormField} from '../common/constant';
 const ApplicantForm = ( role ) => {
      const [isUser, setIsUser] = useState(true);
    useEffect(() => {   
-      if(role !== 4){
+      if(role.role !== 0){
         setIsUser(false);
      }
 }, [role])
-console.log("is userrrrr",isUser , " role ",role, " ROLES.USER", ROLES.USER);
+
+
   const [formData, setFormData] = useState({
     name: '',
     dob: '',
@@ -80,7 +81,6 @@ console.log("on change");
   } else if (income > 500000) {
     suggestedLimit = '150000';
   }
-console.log("limit ----",suggestedLimit);
 
   setFormData(prev => ({ 
     ...prev, 
@@ -125,7 +125,7 @@ console.log("limit ----",suggestedLimit);
  const isFormValid = () => {
     const requiredFields = ['name', 'dob', 'panNo', 'annualIncome'];
     // Add CIBIL if Approver 1 is viewing
-    if (role === ROLES.APPROVER_1) requiredFields.push('cibilScore');
+    if (role.role === ROLES.APPROVER_1) requiredFields.push('cibilScore');
 
     const allFieldsFilled = requiredFields.every(field => formData[field].toString().trim() !== '');
     const noErrors = !errors.dob && !errors.panNo;
@@ -187,7 +187,7 @@ console.log("limit ----",suggestedLimit);
   return (
     <div style={{ maxWidth: '500px', margin: '20px auto', padding: '20px', border: '1px solid #ccc', borderRadius: '8px', fontFamily: 'Arial, sans-serif' }}>
       <h2 id="form-title" style={{ textAlign: 'center' }}>
-        {isUser ? 'Credit Card Application' : `Review Panel`}
+        {isUser ? "Credit Card Application" : "Review Application Details  "}
       </h2>
       
       <form onSubmit={handleSubmit}>
@@ -197,34 +197,34 @@ console.log("limit ----",suggestedLimit);
         readOnly
         placeholder="Generated on submit"
       />
-        <FormField label="Full Name" id="name" type="text" name="name" value={formData.name} onChange={handleChange} required  />
+        <FormField label="Full Name" id="name" type="text" name="name" value={formData.name} onChange={handleChange} required  readOnly={role.role !== ROLES.USER}/>
         <div style={{ display: 'flex', gap: '15px' }}>
-        <FormField label="Date of Birth" id="dob" type="date" name="dob" value={formData.dob} onChange={handleChange} required hint="Must be 18+" />
-        <FormField label="PAN Number" id="panNo" type="text" name="panNo" value={formData.panNo} onChange={handleChange} required pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" title="Format: ABCDE1234F"  />
+        <FormField label="Date of Birth" id="dob" type="date" name="dob" value={formData.dob} onChange={handleChange} required hint="Must be 18+" readOnly={role.role !== ROLES.USER}/>
+        <FormField label="PAN Number" id="panNo" type="text" name="panNo" value={formData.panNo} onChange={handleChange} required pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" title="Format: ABCDE1234F" readOnly={role.role !== ROLES.USER} />
         </div>
         <div style={{ display: 'flex', gap: '15px' }}>
         <FormField label="Annual Income" id="annualIncome" type="number" name="annualIncome" value={formData.annualIncome} onChange={handleChange}  onBlur={() => {   
     handleIncomeBlur(); 
-  }}    style={{ flex: 1 }} required  />
+  }}    style={{ flex: 1 }} required  readOnly={role.role !== ROLES.USER}/>
        <FormField label="Credit Limit" id="creditLimit" type="number" name="creditLimit" value={formData.creditLimit} onChange={handleChange}  onBlur={() => {   
     handleCreditLimitBlur(); 
   }} style={{ flex: 1 }}   hint={!isUser ? "Auto-calculated based on income" : "Final approval limit"}
 />
       </div>
-       <FormField label="Address" id="address" type="text" name="address" value={formData.address} onChange={handleChange} required style={{height: '60px'}} />
-        <FormField label="Phone Number" id="phoneNumber" type="number" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} required  />
+       <FormField label="Address" id="address" type="text" name="address" value={formData.address} onChange={handleChange} required style={{height: '60px'}} readOnly={role.role !== ROLES.USER}/>
+        <FormField label="Phone Number" id="phoneNumber" type="number" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} required  readOnly={role.role !== ROLES.USER}/>
         
          
-        {(role === ROLES.APPROVER_1 || role === ROLES.APPROVER_2) && (
+        {(role.role === ROLES.APPROVER_1 || role.role === ROLES.APPROVER_2) && (
           <FormField label="CIBIL Score" id="cibilScore" type="number" name="cibilScore" value={formData.cibilScore} onChange={handleChange} required min="300" max="900" hint="Range: 300-900"  />
         )}
        
-        {role === ROLES.APPROVER_1 && (
+        {role.role === ROLES.APPROVER_1 && (
           <FormField label="Approver 1 Remarks" id="approver1Comments" type="text" name="approver1Comments" value={formData.approver1Comments} onChange={handleChange} required />
         )}
 
        
-        {role === ROLES.APPROVER_2 && (
+        {role.role === ROLES.APPROVER_2 && (
           <>
             <FormField label="Approver 1 Remarks (View)" id="v-a1" type="text" value={formData.approver1Comments} readOnly/>
             <FormField label="Final Decision/Comments" id="approver2Comments" type="text" name="approver2Comments" value={formData.approver2Comments} onChange={handleChange} required />
@@ -235,19 +235,19 @@ console.log("limit ----",suggestedLimit);
           Submit Application
         </button> 
            )}
-        {role === ROLES.APPROVER_1 && (
+        {role.role === ROLES.APPROVER_1 && (
           <button onClick={getCBILScore} style={buttonStyle}      >
           Get CBIL Score
         </button>)} 
 
-        {role === ROLES.APPROVER_2 && ( <>
+        {role.role === ROLES.APPROVER_2 && ( <>
           <button onClick={approvedClick} style={buttonStyle}      >
          Approve
-        </button> <button onClick={rejectClick} style={buttonStyle}      >
+        </button> <></><button onClick={rejectClick} style={buttonRejectStyle}      >
          Reject
         </button></>)} 
 
-          {role === ROLES.APPROVER_3 && (
+          {role.role === ROLES.APPROVER_3 && (
           <button onClick={dispatched} style={buttonStyle}      >
          Dispatch
         </button>)} 
@@ -283,5 +283,6 @@ console.log("limit ----",suggestedLimit);
 const buttonStyle = { width: '100%', padding: '12px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '16px', fontWeight: 'bold' };
 const overlayStyle = { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 };
 const modalStyle = { backgroundColor: 'white', padding: '30px', borderRadius: '8px', textAlign: 'center', maxWidth: '400px' };
+const buttonRejectStyle = { width: '100%', marginTop:'20px',padding: '12px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '16px', fontWeight: 'bold' };
 
 export default ApplicantForm;

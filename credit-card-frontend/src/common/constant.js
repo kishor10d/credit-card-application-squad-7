@@ -2,7 +2,7 @@ export const ROLES = {
   USER: 0,
   APPROVER_1: 1,
   APPROVER_2: 2,
-  APPROVER_3: 3
+  APPROVER_3: 3  
 };
 
 /**
@@ -27,7 +27,7 @@ export const FormField = ({ label, id, type, name, value, onChange, onBlur, requ
       readOnly={readOnly}
       aria-describedby={hint ? `${id}-hint` : undefined}
       style={{ 
-        width: '100%', padding: '8px', marginTop: '5px', 
+        width: '100%', padding: '8px', marginTop: '5px', fontSize:'14px',
         backgroundColor: readOnly ? '#f0f0f0' : 'white',
         border: '1px solid #ccc', borderRadius: '4px' 
       }}
