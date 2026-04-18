@@ -1,0 +1,13 @@
+.MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows {
+    margin-bottom: 0px !important;
+}
+.MuiTablePagination-select {
+    border: 1px solid #ddd;
+}
+.row>* {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+th {
+    background-color: #b8daff !important;
+}
