@@ -13,10 +13,11 @@ import DialogActions from '@mui/material/DialogActions';
 
 import Home from './Home';
 import { getUserData } from '../services/dashboardService';
+import ApplicantForm from './ApplicantForm';
 
 function Dashboard() {
   const [data, setData] = useState([]);
-   const [selectedId, setSelectedId] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
   const [loading, setLoading]= useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -25,6 +26,9 @@ function Dashboard() {
   const sortedRows = [...data].sort(getComparator(order, orderBy));
   const [open, setOpen] = React.useState(false);
   const handleChangePage = (event, newPage) => setPage(newPage);
+
+  const userData = localStorage.getItem('user');
+  const user = userData ? JSON.parse(userData) : null;
 
   //fetch data
   const fetchData = async () => {
@@ -161,7 +165,7 @@ function Dashboard() {
     
       <DialogContent dividers>
 
-        <Home selelctedId={selectedId} />
+        <ApplicantForm role={user.role} />
 
       </DialogContent>
       
