@@ -8,7 +8,6 @@ const MainLayout = () => {
     <main>
       <Header />
       <main className="flex-grow container mx-auto px-4 py-8">
-        {/* Inner components change here based on route */}
         <Outlet />
       </main>
       <Footer />
